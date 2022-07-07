@@ -63,7 +63,7 @@ Please type text below</string>
                                     <action selector="reserveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0yk-Gb-uAF"/>
                                 </connections>
                             </button>
-                            <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text to reverse" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WSv-7e-4ZV">
+                            <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text to reverse" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WSv-7e-4ZV">
                                 <rect key="frame" x="16" y="312" width="343" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="2ib-bb-ucG"/>

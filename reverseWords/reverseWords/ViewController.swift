@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate{
     //MARK: IBOutlets
     @IBOutlet weak var reserveTF: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
@@ -21,6 +21,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil);
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil);
+        reserveTF.delegate = self
         navBar.titleTextAttributes = [.font : UIFont(name: "Roboto-Bold", size: 17)!]
         
         navBarHeader.layer.backgroundColor = UIColor(red: 0.976, green: 0.976, blue: 0.976, alpha: 0.94).cgColor
@@ -39,14 +43,21 @@ class ViewController: UIViewController {
         reserveBtn.layer.cornerRadius = 14
         divider.layer.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 0.2).cgColor
         
+        reserveTF.returnKeyType = .done
         reserveTF.font = UIFont(name: "Roboto-Regular", size: 17)
         reserveTF.addTarget(self, action: #selector(editingTF), for: .editingDidBegin)
         reserveTF.addTarget(self, action: #selector(endEditingTF), for: .editingDidEnd)
         reserveTF.addTarget(self, action: #selector(startTyping), for: .editingChanged)
-    
+        
+        
+        
     }
     
     //MARK: Methods
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
     
     @objc func editingTF(sender: UITextField) {
         if sender == reserveTF {
@@ -66,9 +77,17 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first as? UITouch {
-            view.endEditing(true)
-        }
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        self.view.frame.origin.y = -kbSize.height // Move view height keyboard points upward
+    }
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        self.view.frame.origin.y = 0 // Move view to original position
     }
     
     func alert(title: String, message: String, style: UIAlertController.Style) {
@@ -84,21 +103,21 @@ class ViewController: UIViewController {
     @IBAction func reserveButton(_ sender: UIButton) {
         guard let textToReserve = reserveTF.text else { return }
         if reserveTF.text!.count > 0 {
-        sender.tag = sender.tag + 1
-        if sender.tag > 1 {sender.tag = 0}
-        switch sender.tag {
-        case 1:
-            resultLabel.text = textToReserve.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
-            reserveBtn.setTitle("Clear", for: .normal)
-        default:
-            resultLabel.text = ""
-            reserveTF.text = ""
-            reserveBtn.setTitle("Reverse", for: .normal)
-            reserveBtn.layer.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 0.6).cgColor
-        }
-     } else {
+            sender.tag = sender.tag + 1
+            if sender.tag > 1 {sender.tag = 0}
+            switch sender.tag {
+            case 1:
+                resultLabel.text = textToReserve.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
+                reserveBtn.setTitle("Clear", for: .normal)
+            default:
+                resultLabel.text = ""
+                reserveTF.text = ""
+                reserveBtn.setTitle("Reverse", for: .normal)
+                reserveBtn.layer.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 0.6).cgColor
+            }
+        } else {
             self.alert(title: "Warning", message: "Enter text first!", style: .alert)
-     }
-   }
+        }
+    }
 }
 
