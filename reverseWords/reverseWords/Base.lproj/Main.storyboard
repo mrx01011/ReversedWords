@@ -44,7 +44,7 @@ Please type text below</string>
                                 <color key="backgroundColor" systemColor="systemGray3Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.67000000000000004" id="R3N-Zn-8OX"/>
-                                    <constraint firstAttribute="width" constant="343" id="lW5-78-m5h"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="lW5-78-m5h"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWI-Pf-q8x">
@@ -56,17 +56,16 @@ Please type text below</string>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Reserve">
+                                <state key="normal" title="Reverse">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="reserveButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0yk-Gb-uAF"/>
+                                    <action selector="reverseButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yk0-RU-4Ul"/>
                                 </connections>
                             </button>
                             <textField autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Text to reverse" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WSv-7e-4ZV">
                                 <rect key="frame" x="16" y="312" width="343" height="22"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="2ib-bb-ucG"/>
                                     <constraint firstAttribute="height" constant="22" id="XvN-Vf-jdO"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="343" id="kId-hu-QWE"/>
                                 </constraints>
@@ -119,13 +118,13 @@ Please type text below</string>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="kMe-un-j80" firstAttribute="top" secondItem="Sja-hc-5Fe" secondAttribute="bottom" constant="24.329999999999998" id="1RK-bm-gVU"/>
                             <constraint firstItem="WSv-7e-4ZV" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="6Ea-1o-Grk"/>
                             <constraint firstAttribute="trailing" secondItem="Sja-hc-5Fe" secondAttribute="trailing" constant="16" id="9bj-Tv-tBM"/>
                             <constraint firstItem="HeI-E3-TSS" firstAttribute="trailing" secondItem="Kov-ec-dAh" secondAttribute="trailing" id="Ld1-Wj-LDI"/>
                             <constraint firstItem="kMe-un-j80" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="REk-Qh-cDJ"/>
-                            <constraint firstAttribute="trailing" secondItem="WSv-7e-4ZV" secondAttribute="trailing" constant="16" id="SpO-7F-UTL"/>
                             <constraint firstItem="HeI-E3-TSS" firstAttribute="leading" secondItem="Kov-ec-dAh" secondAttribute="leading" id="Vcu-5w-ekv"/>
                             <constraint firstItem="Sja-hc-5Fe" firstAttribute="top" secondItem="WSv-7e-4ZV" secondAttribute="bottom" constant="18" id="WMO-SD-a8r"/>
                             <constraint firstItem="Mnq-Ec-xBT" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="WRs-r8-zVh"/>
@@ -146,19 +145,28 @@ Please type text below</string>
                             <constraint firstItem="Sja-hc-5Fe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="v9f-Fy-cRu"/>
                             <constraint firstItem="Kov-ec-dAh" firstAttribute="top" secondItem="HeI-E3-TSS" secondAttribute="bottom" id="vYe-9b-7Rf"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="1x2-oI-Fpj" appends="YES" id="EJx-eg-j4o"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="NavBarHeader" destination="HeI-E3-TSS" id="Ii0-rx-YS1"/>
                         <outlet property="TitleLabel" destination="3TW-v0-PuB" id="B89-8n-Hx2"/>
                         <outlet property="divider" destination="Sja-hc-5Fe" id="cTs-lw-oeb"/>
                         <outlet property="navBar" destination="Kov-ec-dAh" id="ILD-rC-XZt"/>
-                        <outlet property="reserveBtn" destination="LWI-Pf-q8x" id="CE1-bQ-XQc"/>
-                        <outlet property="reserveTF" destination="WSv-7e-4ZV" id="e26-JC-fpF"/>
                         <outlet property="resultLabel" destination="iIs-Av-OAa" id="Rjh-eI-gh1"/>
+                        <outlet property="reverseBtn" destination="LWI-Pf-q8x" id="wlY-6I-g56"/>
+                        <outlet property="reverseTF" destination="WSv-7e-4ZV" id="16K-p7-cIz"/>
+                        <outlet property="scrollingResultLabel" destination="kMe-un-j80" id="HjT-xw-g7S"/>
                         <outlet property="subTitleLabel" destination="Mnq-Ec-xBT" id="Qnp-DI-IfO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="1x2-oI-Fpj">
+                    <connections>
+                        <action selector="tapTGR:" destination="BYZ-38-t0r" id="uVX-ly-Fjm"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="28" y="79.064039408867004"/>
         </scene>
