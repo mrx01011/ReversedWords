@@ -83,7 +83,7 @@ class ViewController: UIViewController, UITextFieldDelegate{
     @objc func keyboardWillShow(sender: NSNotification) {
         guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
-        self.view.frame.origin.y = -kbSize.height // Move view height keyboard points upward
+        self.view.frame.origin.y = -(kbSize.height - 66) // Move view height keyboard points upward
     }
     
     @objc func keyboardWillHide(sender: NSNotification) {
