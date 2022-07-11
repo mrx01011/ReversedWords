@@ -193,6 +193,7 @@ class ViewController: UIViewController {
             reverseButtonCode.isEnabled = false
         }
     }
+    
     @objc func keyboardWillShow(sender: NSNotification) {
         guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         reverseButtonBottomConstraint?.constant = -(kbSize.height)
@@ -201,6 +202,7 @@ class ViewController: UIViewController {
     @objc func keyboardWillHide(sender: NSNotification) {
         reverseButtonBottomConstraint?.constant = -66
     }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -218,8 +220,14 @@ extension ViewController: UITextFieldDelegate {
         dividerViewCode.layer.backgroundColor = Constants.dividerView.color
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        reverseButtonCode.layer.backgroundColor = Constants.reverseButton.backgroundColorWhenTextFieldNotEmpty
-        reverseButtonCode.isEnabled = true
+        let newText = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
+        if newText.isEmpty {
+            reverseButtonCode.layer.backgroundColor = Constants.reverseButton.backgroundColorWhenTextFieldEmpty
+            reverseButtonCode.isEnabled = false
+        } else {
+            reverseButtonCode.layer.backgroundColor = Constants.reverseButton.backgroundColorWhenTextFieldNotEmpty
+            reverseButtonCode.isEnabled = true
+        }
         return true
     }
 }
