@@ -4,79 +4,69 @@
 //
 //  Created by Vladyslav Nhuien on 09.07.2022.
 //
-
+import SnapKit
 import UIKit
 
 class ViewController: UIViewController {
     // MARK: UIElements
     private let topSafeAreaView: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = Constants.HeaderView.color
+        view.layer.backgroundColor = Constants.Header.color
         return view
     }()
-    
     private let headerView: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = Constants.HeaderView.color
+        view.layer.backgroundColor = Constants.Header.color
         return view
     }()
-    
     private let headerLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.TitleLabel.text
+        label.text = Constants.HeaderLabel.text
         label.textColor = Constants.HeaderLabel.textColor
         label.font = Constants.HeaderLabel.font
         return label
     }()
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.TitleLabel.text
-        label.font = Constants.TitleLabel.font
-        label.font = Constants.TitleLabel.font
-        label.textColor = Constants.TitleLabel.textColor
+        label.text = Constants.Title.text
+        label.font = Constants.Title.font
+        label.textColor = Constants.Title.textColor
         label.textAlignment = .center
         return label
     }()
-    
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = Constants.SubtitleLabel.text
-        label.font = Constants.SubtitleLabel.font
-        label.textColor = Constants.SubtitleLabel.textColor
+        label.text = Constants.Subtitle.text
+        label.font = Constants.Subtitle.font
+        label.textColor = Constants.Subtitle.textColor
         label.textAlignment = .center
-        label.numberOfLines = Constants.SubtitleLabel.numberOfLines
+        label.numberOfLines = Constants.Subtitle.numberOfLines
         return label
     }()
-    
     private let reverseTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Constants.ReverseTextField.placeholder
-        textField.font = Constants.SubtitleLabel.font
+        textField.font = Constants.ReverseTextField.font
         textField.returnKeyType = .done
         return textField
     }()
-    
     private let dividerView: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = Constants.DividerView.color
+        view.layer.backgroundColor = Constants.Divider.inactiveColor
         return view
     }()
-    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         return scrollView
     }()
-    
     private let resultTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
-        textView.font = Constants.ResultTextView.font
-        textView.textColor = Constants.ResultTextView.textColor
+        textView.font = Constants.Result.font
+        textView.textColor = Constants.Result.textColor
         return textView
     }()
-    
     private let reverseButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
@@ -86,6 +76,7 @@ class ViewController: UIViewController {
         return button
     }()
     
+    // MARK: NSElements
     private var reverseButtonBottomConstraint: NSLayoutConstraint?
     
     // MARK: Lifecycle
@@ -95,74 +86,88 @@ class ViewController: UIViewController {
         defaultConfiguration()
         observeKeyboardNotificaton()
     }
+    
     // MARK: Methods
     private func setupUI() {
         // Top Safe Area
         view.addSubview(topSafeAreaView)
-        topSafeAreaView.translatesAutoresizingMaskIntoConstraints = false
-        topSafeAreaView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.Header.side).isActive = true
-        topSafeAreaView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: Constants.OffSet.Header.side).isActive = true
-        topSafeAreaView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.OffSet.Header.top).isActive = true
-        topSafeAreaView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        topSafeAreaView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
+            make.top.equalToSuperview().inset(Constants.OffSet.Header.top)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+          }
         // Header View
         view.addSubview(headerView)
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.Header.side).isActive = true
-        headerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: Constants.OffSet.Header.side).isActive = true
-        headerView.topAnchor.constraint(equalTo: topSafeAreaView.bottomAnchor, constant: Constants.OffSet.Header.top).isActive = true
-        headerView.heightAnchor.constraint(equalToConstant: Constants.OffSet.Header.height).isActive = true
+        headerView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.Header.side)
+            make.top.equalTo(topSafeAreaView.snp.bottom).offset(Constants.OffSet.Header.top)
+            make.height.equalTo(Constants.OffSet.Header.height)
+          }
         // Header Label
         headerView.addSubview(headerLabel)
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
-        headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -Constants.OffSet.Header.labelBottom).isActive = true
+        headerLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(headerView.snp.centerX)
+            make.bottom.equalTo(headerView.snp.bottom).offset(-Constants.OffSet.Header.labelBottom)
+          }
         // Title Label
         view.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.side).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.side).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: Constants.OffSet.Title.top).isActive = true
+        titleLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
+            make.top.equalTo(headerView.snp.bottom).offset(Constants.OffSet.Title.top)
+          }
         // Subtitle Label
         view.addSubview(subtitleLabel)
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.Subtitle.side).isActive = true
-        subtitleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.Subtitle.side).isActive = true
-        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.OffSet.Subtitle.top).isActive = true
+        subtitleLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.Subtitle.side)
+            make.top.equalTo(titleLabel.snp.bottom).offset(Constants.OffSet.Subtitle.top)
+        }
         // Reverse Text Field
         view.addSubview(reverseTextField)
-        reverseTextField.translatesAutoresizingMaskIntoConstraints = false
-        reverseTextField.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.side).isActive = true
-        reverseTextField.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.side).isActive = true
-        reverseTextField.topAnchor.constraint(equalTo: subtitleLabel.bottomAnchor, constant: Constants.OffSet.ReverseTextField.top).isActive = true
+        reverseTextField.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(Constants.OffSet.ReverseTextField.top)
+        }
         // Divider View
         view.addSubview(dividerView)
-        dividerView.translatesAutoresizingMaskIntoConstraints = false
-        dividerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.side).isActive = true
-        dividerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.side).isActive = true
-        dividerView.topAnchor.constraint(equalTo: reverseTextField.bottomAnchor, constant: Constants.OffSet.Divider.top).isActive = true
+        dividerView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
+            make.top.equalTo(reverseTextField.snp.bottom).offset(Constants.OffSet.Divider.top)
+            make.height.equalTo(Constants.OffSet.Divider.height)
+        }
         // Text View
         scrollView.addSubview(resultTextView)
-        resultTextView.translatesAutoresizingMaskIntoConstraints = false
-        resultTextView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: Constants.OffSet.ResultText.multiplier).isActive = true
-        resultTextView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: Constants.OffSet.ResultText.multiplier).isActive = true
+        resultTextView.snp.makeConstraints { make in
+            make.height.equalTo(scrollView.snp.height)
+            make.width.equalTo(scrollView.snp.width)
+        }
         // Scroll View
         view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.side).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.side).isActive = true
-        scrollView.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: Constants.OffSet.Scroll.top).isActive = true
+        scrollView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
+            make.top.equalTo(dividerView.snp.bottom).offset(Constants.OffSet.Scroll.top)
+        }
         // Reverse Button
         view.addSubview(reverseButton)
-        reverseButton.translatesAutoresizingMaskIntoConstraints = false
-        reverseButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: Constants.OffSet.Button.side).isActive = true
-        reverseButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -Constants.OffSet.Button.side).isActive = true
-        reverseButton.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: Constants.OffSet.Button.top).isActive = true
-        reverseButtonBottomConstraint = reverseButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -Constants.OffSet.Button.bottom)
-        reverseButtonBottomConstraint?.isActive = true
-        reverseButton.heightAnchor.constraint(equalToConstant: Constants.OffSet.Button.height).isActive = true
+        reverseButton.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.Button.side)
+            make.top.equalTo(scrollView.snp.bottom).offset(Constants.OffSet.Button.top)
+            make.bottom.equalToSuperview().offset(-Constants.OffSet.Button.bottom)
+            make.height.equalTo(Constants.OffSet.Button.height)
+        }
     }
     
-    @objc func reverseWords(sender: UIButton) {
+    private func defaultConfiguration() {
+        reverseTextField.delegate = self
+        view.backgroundColor = .white
+        reverseButton.addTarget(self, action: #selector(reverseWords), for: .touchUpInside)
+    }
+    
+    private func observeKeyboardNotificaton() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func reverseWords(sender: UIButton) {
         guard let textToReverse = reverseTextField.text else { return }
         let newTag = sender.tag + 1
         if newTag > 1 {
@@ -183,42 +188,38 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillShow(sender: NSNotification) {
+    @objc private func keyboardWillShow(sender: NSNotification) {
         guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        reverseButtonBottomConstraint?.constant = -(kbSize.height + 10)
+        reverseButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-(kbSize.height + 10))
+        }
     }
     
-    @objc func keyboardWillHide(sender: NSNotification) {
-        reverseButtonBottomConstraint?.constant = -66
+    @objc private func keyboardWillHide(sender: NSNotification) {
+        reverseButton.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(-Constants.OffSet.Button.bottom)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
-    private func defaultConfiguration() {
-        reverseTextField.delegate = self
-        view.backgroundColor = .white
-        reverseButton.addTarget(self, action: #selector(reverseWords), for: .touchUpInside)
-    }
-    
-    private func observeKeyboardNotificaton() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(sender:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
 }
-//MARK: Text Field Delegate
+    // MARK: Text Field Delegate
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        dividerView.layer.backgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1).cgColor
+        dividerView.layer.backgroundColor = Constants.Divider.activeColor
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        dividerView.layer.backgroundColor = Constants.DividerView.color
+        dividerView.layer.backgroundColor = Constants.Divider.inactiveColor
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let newText = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
         if newText.isEmpty {
@@ -231,22 +232,23 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
-// MARK: Constants
+    // MARK: Constants
 extension ViewController {
     private enum Constants {
-        enum HeaderView {
+        enum Header {
             static let color = UIColor(red: 0.976, green: 0.976, blue: 0.976, alpha: 0.94).cgColor
         }
         enum HeaderLabel {
-            static let textColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
+            static let text = "Reverse Words"
             static let font = UIFont(name: "Roboto-Bold", size: 17) ?? UIFont.systemFont(ofSize: 17)
+            static let textColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
         }
-        enum TitleLabel {
+        enum Title {
             static let text = "Reverse Words"
             static let font = UIFont(name: "Roboto-Bold", size: 34) ?? UIFont.systemFont(ofSize: 34)
             static let textColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
         }
-        enum SubtitleLabel {
+        enum Subtitle {
             static let text = "This application will reverse your words. Please type text below"
             static let font = UIFont(name: "Roboto-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
             static let textColor = UIColor(red: 0.235, green: 0.235, blue: 0.263, alpha: 0.6)
@@ -254,11 +256,13 @@ extension ViewController {
         }
         enum ReverseTextField {
             static let placeholder = "Text to reverse"
+            static let font = UIFont(name: "Roboto-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
         }
-        enum DividerView {
-            static let color = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 0.2).cgColor
+        enum Divider {
+            static let inactiveColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 0.2).cgColor
+            static let activeColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1).cgColor
         }
-        enum ResultTextView {
+        enum Result {
             static let font = UIFont(name: "Roboto-Regular", size: 24) ?? UIFont.systemFont(ofSize: 24)
             static let textColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         }
@@ -289,17 +293,19 @@ extension ViewController {
             }
             enum Divider {
                 static let top: CGFloat = 18
-            }
-            enum ResultText {
-                static let multiplier: CGFloat = 1
+                static let height: CGFloat = 1
             }
             enum Scroll {
-                static let top: CGFloat = 24.5
+                static let top: CGFloat = 24
             }
             enum Button {
                 static let side: CGFloat = 13
                 static let top: CGFloat = 45
-                static let bottom: CGFloat = 66
+                static let bottom: CGFloat = {
+                    let window = UIApplication.shared.windows.first
+                    let bottomPadding = window?.safeAreaInsets.bottom ?? 0
+                    return bottomPadding + 22
+                }()
                 static let height: CGFloat = 60
             }
         }
