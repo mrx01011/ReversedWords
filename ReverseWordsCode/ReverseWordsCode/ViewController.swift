@@ -4,10 +4,25 @@
 //
 //  Created by Vladyslav Nhuien on 09.07.2022.
 //
+
 import SnapKit
 import UIKit
 
+enum State {
+    case initial
+    case typing(text: String)
+    case result(result: String)
+}
+
 class ViewController: UIViewController {
+    
+    //MARK: State
+    private var state: State = .initial {
+        didSet {
+            applyState(state)
+        }
+    }
+    
     // MARK: UIElements
     private let topSafeAreaView: UIView = {
         let view = UIView()
@@ -95,26 +110,26 @@ class ViewController: UIViewController {
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
             make.top.equalToSuperview().inset(Constants.OffSet.Header.top)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
-          }
+        }
         // Header View
         view.addSubview(headerView)
         headerView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.Header.side)
             make.top.equalTo(topSafeAreaView.snp.bottom).offset(Constants.OffSet.Header.top)
             make.height.equalTo(Constants.OffSet.Header.height)
-          }
+        }
         // Header Label
         headerView.addSubview(headerLabel)
         headerLabel.snp.makeConstraints { make in
             make.centerX.equalTo(headerView.snp.centerX)
             make.bottom.equalTo(headerView.snp.bottom).offset(-Constants.OffSet.Header.labelBottom)
-          }
+        }
         // Title Label
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
             make.top.equalTo(headerView.snp.bottom).offset(Constants.OffSet.Title.top)
-          }
+        }
         // Subtitle Label
         view.addSubview(subtitleLabel)
         subtitleLabel.snp.makeConstraints { make in
@@ -159,7 +174,7 @@ class ViewController: UIViewController {
     private func defaultConfiguration() {
         reverseTextField.delegate = self
         view.backgroundColor = .white
-        reverseButton.addTarget(self, action: #selector(reverseWords), for: .touchUpInside)
+        reverseButton.addTarget(self, action: #selector(onActionButton), for: .touchUpInside)
     }
     
     private func observeKeyboardNotificaton() {
@@ -167,31 +182,63 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc private func reverseWords(sender: UIButton) {
-        guard let textToReverse = reverseTextField.text else { return }
-        let newTag = sender.tag + 1
-        if newTag > 1 {
-            sender.tag = 0
-        } else {
-            sender.tag = newTag
-        }
-        if sender.tag == 1 {
-            let result = textToReverse.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
-            resultTextView.text = result
-            reverseButton.setTitle(Constants.ReverseButton.titleLabelClear, for: .normal)
-        } else {
+    private func applyState(_ state: State) {
+        func applyInitialState() {
             resultTextView.text = ""
             reverseTextField.text = ""
             reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
             reverseButton.layer.backgroundColor = Constants.ReverseButton.inactiveBackgroundColor
             reverseButton.isEnabled = false
+            dividerView.layer.backgroundColor = Constants.Divider.inactiveColor
+        }
+        func applyTypingState(hasEnteredText: Bool) {
+            if hasEnteredText {
+                reverseButton.isEnabled = true
+                reverseButton.layer.backgroundColor = Constants.ReverseButton.activeBackgroundColor
+                dividerView.layer.backgroundColor = Constants.Divider.activeColor
+            } else {
+                applyInitialState()
+            }
+        }
+        func applyResultState(result: String) {
+            reverseButton.setTitle(Constants.ReverseButton.titleLabelClear, for: .normal)
+            dividerView.layer.backgroundColor = Constants.Divider.inactiveColor
+            resultTextView.text = result
+        }
+        
+        switch state {
+        case .initial:
+            applyInitialState()
+        case .typing(let text):
+            applyTypingState(hasEnteredText: !text.isEmpty)
+        case .result(let result):
+            applyResultState(result: result)
+        }
+    }
+    
+    @objc private func onActionButton(sender: UIButton) {
+        func reverseText(text: String) {
+            let result = text.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
+            state = .result(result: result)
+        }
+        func clearText() {
+            state = .initial
+        }
+        
+        switch state {
+        case .initial:
+            break
+        case .typing(let text):
+            reverseText(text: text)
+        case .result:
+            clearText()
         }
     }
     
     @objc private func keyboardWillShow(sender: NSNotification) {
         guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         reverseButton.snp.updateConstraints { make in
-            make.bottom.equalToSuperview().offset(-(kbSize.height + 10))
+            make.bottom.equalToSuperview().offset(-(kbSize.height + Constants.OffSet.Button.keyboardIndent))
         }
     }
     
@@ -205,34 +252,24 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
 }
-    // MARK: Text Field Delegate
+// MARK: Text Field Delegate
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        dividerView.layer.backgroundColor = Constants.Divider.activeColor
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        dividerView.layer.backgroundColor = Constants.Divider.inactiveColor
-    }
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let newText = ((textField.text ?? "") as NSString).replacingCharacters(in: range, with: string)
-        if newText.isEmpty {
-            reverseButton.layer.backgroundColor = Constants.ReverseButton.inactiveBackgroundColor
-            reverseButton.isEnabled = false
-        } else {
-            reverseButton.layer.backgroundColor = Constants.ReverseButton.activeBackgroundColor
-            reverseButton.isEnabled = true
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange, with: string)
+            state = .typing(text: updatedText)
+            reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
         }
         return true
     }
 }
-    // MARK: Constants
+// MARK: Constants
 extension ViewController {
     private enum Constants {
         enum Header {
@@ -307,6 +344,7 @@ extension ViewController {
                     return bottomPadding + 22
                 }()
                 static let height: CGFloat = 60
+                static let keyboardIndent: CGFloat = 10
             }
         }
     }
