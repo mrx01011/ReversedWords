@@ -14,7 +14,16 @@ enum State {
     case result(result: String)
 }
 
+class Reverser {
+    func reverse(textToReverse text: String) -> String {
+        let result = text.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
+        return result
+    }
+}
+
 class ViewController: UIViewController {
+    
+    private lazy var reverser = Reverser()
     
     //MARK: State
     private var state: State = .initial {
@@ -58,7 +67,7 @@ class ViewController: UIViewController {
         label.numberOfLines = Constants.Subtitle.numberOfLines
         return label
     }()
-    private let reverseTextField: UITextField = {
+    private let inputTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = Constants.ReverseTextField.placeholder
         textField.font = Constants.ReverseTextField.font
@@ -137,8 +146,8 @@ class ViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(Constants.OffSet.Subtitle.top)
         }
         // Reverse Text Field
-        view.addSubview(reverseTextField)
-        reverseTextField.snp.makeConstraints { make in
+        view.addSubview(inputTextField)
+        inputTextField.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
             make.top.equalTo(subtitleLabel.snp.bottom).offset(Constants.OffSet.ReverseTextField.top)
         }
@@ -146,7 +155,7 @@ class ViewController: UIViewController {
         view.addSubview(dividerView)
         dividerView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(Constants.OffSet.side)
-            make.top.equalTo(reverseTextField.snp.bottom).offset(Constants.OffSet.Divider.top)
+            make.top.equalTo(inputTextField.snp.bottom).offset(Constants.OffSet.Divider.top)
             make.height.equalTo(Constants.OffSet.Divider.height)
         }
         // Text View
@@ -172,7 +181,7 @@ class ViewController: UIViewController {
     }
     
     private func defaultConfiguration() {
-        reverseTextField.delegate = self
+        inputTextField.delegate = self
         view.backgroundColor = .white
         reverseButton.addTarget(self, action: #selector(onActionButton), for: .touchUpInside)
     }
@@ -185,7 +194,7 @@ class ViewController: UIViewController {
     private func applyState(_ state: State) {
         func applyInitialState() {
             resultTextView.text = ""
-            reverseTextField.text = ""
+            inputTextField.text = ""
             reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
             reverseButton.layer.backgroundColor = Constants.ReverseButton.inactiveBackgroundColor
             reverseButton.isEnabled = false
@@ -195,7 +204,9 @@ class ViewController: UIViewController {
             if hasEnteredText {
                 reverseButton.isEnabled = true
                 reverseButton.layer.backgroundColor = Constants.ReverseButton.activeBackgroundColor
+                reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
                 dividerView.layer.backgroundColor = Constants.Divider.activeColor
+                resultTextView.text = ""
             } else {
                 applyInitialState()
             }
@@ -218,7 +229,7 @@ class ViewController: UIViewController {
     
     @objc private func onActionButton(sender: UIButton) {
         func reverseText(text: String) {
-            let result = text.split(separator: " ").map { String($0.reversed())}.joined(separator: " ")
+            let result = reverser.reverse(textToReverse: text)
             state = .result(result: result)
         }
         func clearText() {
@@ -236,7 +247,8 @@ class ViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(sender: NSNotification) {
-        guard let userInfo = sender.userInfo, let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let userInfo = sender.userInfo,
+              let kbSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         reverseButton.snp.updateConstraints { make in
             make.bottom.equalToSuperview().offset(-(kbSize.height + Constants.OffSet.Button.keyboardIndent))
         }
@@ -264,7 +276,6 @@ extension ViewController: UITextFieldDelegate {
            let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange, with: string)
             state = .typing(text: updatedText)
-            reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
         }
         return true
     }

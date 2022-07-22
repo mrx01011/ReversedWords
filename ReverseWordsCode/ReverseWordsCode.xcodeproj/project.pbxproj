@@ -16,7 +16,27 @@
 		FB1B266E2879FBE300C13FC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB1B266C2879FBE300C13FC6 /* LaunchScreen.storyboard */; };
 		FB1B2678287A090F00C13FC6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB1B2676287A090E00C13FC6 /* Roboto-Regular.ttf */; };
 		FB1B2679287A090F00C13FC6 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB1B2677287A090F00C13FC6 /* Roboto-Bold.ttf */; };
+		FB56F9C02889C34500042F25 /* ReverseWordsCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB56F9BF2889C34500042F25 /* ReverseWordsCodeTests.swift */; };
+		FBFAC3FF288AD388000EC6BA /* ReverseWordsCodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFAC3FE288AD388000EC6BA /* ReverseWordsCodeUITests.swift */; };
+		FBFAC401288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFAC400288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FB56F9C12889C34500042F25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB1B26562879FBE100C13FC6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB1B265D2879FBE100C13FC6;
+			remoteInfo = ReverseWordsCode;
+		};
+		FBFAC402288AD388000EC6BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB1B26562879FBE100C13FC6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB1B265D2879FBE100C13FC6;
+			remoteInfo = ReverseWordsCode;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		09D1249DFF39EF628D69BB00 /* Pods-ReverseWordsCode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReverseWordsCode.debug.xcconfig"; path = "Target Support Files/Pods-ReverseWordsCode/Pods-ReverseWordsCode.debug.xcconfig"; sourceTree = "<group>"; };
@@ -32,6 +52,11 @@
 		FB1B266F2879FBE300C13FC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB1B2676287A090E00C13FC6 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		FB1B2677287A090F00C13FC6 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		FB56F9BD2889C34500042F25 /* ReverseWordsCodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReverseWordsCodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB56F9BF2889C34500042F25 /* ReverseWordsCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeTests.swift; sourceTree = "<group>"; };
+		FBFAC3FC288AD388000EC6BA /* ReverseWordsCodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReverseWordsCodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBFAC3FE288AD388000EC6BA /* ReverseWordsCodeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeUITests.swift; sourceTree = "<group>"; };
+		FBFAC400288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +65,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F84FBF1BE57C81E650C08A /* Pods_ReverseWordsCode.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB56F9BA2889C34500042F25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBFAC3F9288AD387000EC6BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				FB1B26602879FBE100C13FC6 /* ReverseWordsCode */,
+				FB56F9BE2889C34500042F25 /* ReverseWordsCodeTests */,
+				FBFAC3FD288AD388000EC6BA /* ReverseWordsCodeUITests */,
 				FB1B265F2879FBE100C13FC6 /* Products */,
 				FCD5180756AD36B0B208A772 /* Pods */,
 				420F28A31C5C05E252EC6B18 /* Frameworks */,
@@ -68,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				FB1B265E2879FBE100C13FC6 /* ReverseWordsCode.app */,
+				FB56F9BD2889C34500042F25 /* ReverseWordsCodeTests.xctest */,
+				FBFAC3FC288AD388000EC6BA /* ReverseWordsCodeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -94,6 +137,23 @@
 				FB1B2676287A090E00C13FC6 /* Roboto-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		FB56F9BE2889C34500042F25 /* ReverseWordsCodeTests */ = {
+			isa = PBXGroup;
+			children = (
+				FB56F9BF2889C34500042F25 /* ReverseWordsCodeTests.swift */,
+			);
+			path = ReverseWordsCodeTests;
+			sourceTree = "<group>";
+		};
+		FBFAC3FD288AD388000EC6BA /* ReverseWordsCodeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FBFAC3FE288AD388000EC6BA /* ReverseWordsCodeUITests.swift */,
+				FBFAC400288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift */,
+			);
+			path = ReverseWordsCodeUITests;
 			sourceTree = "<group>";
 		};
 		FCD5180756AD36B0B208A772 /* Pods */ = {
@@ -127,6 +187,42 @@
 			productReference = FB1B265E2879FBE100C13FC6 /* ReverseWordsCode.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FB56F9BC2889C34500042F25 /* ReverseWordsCodeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB56F9C52889C34500042F25 /* Build configuration list for PBXNativeTarget "ReverseWordsCodeTests" */;
+			buildPhases = (
+				FB56F9B92889C34500042F25 /* Sources */,
+				FB56F9BA2889C34500042F25 /* Frameworks */,
+				FB56F9BB2889C34500042F25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB56F9C22889C34500042F25 /* PBXTargetDependency */,
+			);
+			name = ReverseWordsCodeTests;
+			productName = ReverseWordsCodeTests;
+			productReference = FB56F9BD2889C34500042F25 /* ReverseWordsCodeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FBFAC3FB288AD387000EC6BA /* ReverseWordsCodeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBFAC406288AD388000EC6BA /* Build configuration list for PBXNativeTarget "ReverseWordsCodeUITests" */;
+			buildPhases = (
+				FBFAC3F8288AD387000EC6BA /* Sources */,
+				FBFAC3F9288AD387000EC6BA /* Frameworks */,
+				FBFAC3FA288AD387000EC6BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FBFAC403288AD388000EC6BA /* PBXTargetDependency */,
+			);
+			name = ReverseWordsCodeUITests;
+			productName = ReverseWordsCodeUITests;
+			productReference = FBFAC3FC288AD388000EC6BA /* ReverseWordsCodeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -139,6 +235,14 @@
 				TargetAttributes = {
 					FB1B265D2879FBE100C13FC6 = {
 						CreatedOnToolsVersion = 13.3;
+					};
+					FB56F9BC2889C34500042F25 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = FB1B265D2879FBE100C13FC6;
+					};
+					FBFAC3FB288AD387000EC6BA = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = FB1B265D2879FBE100C13FC6;
 					};
 				};
 			};
@@ -156,6 +260,8 @@
 			projectRoot = "";
 			targets = (
 				FB1B265D2879FBE100C13FC6 /* ReverseWordsCode */,
+				FB56F9BC2889C34500042F25 /* ReverseWordsCodeTests */,
+				FBFAC3FB288AD387000EC6BA /* ReverseWordsCodeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -170,6 +276,20 @@
 				FB1B2679287A090F00C13FC6 /* Roboto-Bold.ttf in Resources */,
 				FB1B2678287A090F00C13FC6 /* Roboto-Regular.ttf in Resources */,
 				FB1B26692879FBE100C13FC6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB56F9BB2889C34500042F25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBFAC3FA288AD387000EC6BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +348,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FB56F9B92889C34500042F25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB56F9C02889C34500042F25 /* ReverseWordsCodeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FBFAC3F8288AD387000EC6BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBFAC401288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift in Sources */,
+				FBFAC3FF288AD388000EC6BA /* ReverseWordsCodeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FB56F9C22889C34500042F25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB1B265D2879FBE100C13FC6 /* ReverseWordsCode */;
+			targetProxy = FB56F9C12889C34500042F25 /* PBXContainerItemProxy */;
+		};
+		FBFAC403288AD388000EC6BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB1B265D2879FBE100C13FC6 /* ReverseWordsCode */;
+			targetProxy = FBFAC402288AD388000EC6BA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FB1B26672879FBE100C13FC6 /* Main.storyboard */ = {
@@ -426,6 +576,76 @@
 			};
 			name = Release;
 		};
+		FB56F9C32889C34500042F25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9C4CX4LW72;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VladyslavNhuien.ReverseWordsCodeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReverseWordsCode.app/ReverseWordsCode";
+			};
+			name = Debug;
+		};
+		FB56F9C42889C34500042F25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9C4CX4LW72;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VladyslavNhuien.ReverseWordsCodeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReverseWordsCode.app/ReverseWordsCode";
+			};
+			name = Release;
+		};
+		FBFAC404288AD388000EC6BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9C4CX4LW72;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VladyslavNhuien.ReverseWordsCodeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ReverseWordsCode;
+			};
+			name = Debug;
+		};
+		FBFAC405288AD388000EC6BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9C4CX4LW72;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = VladyslavNhuien.ReverseWordsCodeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ReverseWordsCode;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -443,6 +663,24 @@
 			buildConfigurations = (
 				FB1B26732879FBE300C13FC6 /* Debug */,
 				FB1B26742879FBE300C13FC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB56F9C52889C34500042F25 /* Build configuration list for PBXNativeTarget "ReverseWordsCodeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB56F9C32889C34500042F25 /* Debug */,
+				FB56F9C42889C34500042F25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBFAC406288AD388000EC6BA /* Build configuration list for PBXNativeTarget "ReverseWordsCodeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBFAC404288AD388000EC6BA /* Debug */,
+				FBFAC405288AD388000EC6BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
