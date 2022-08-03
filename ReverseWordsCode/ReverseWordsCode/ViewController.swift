@@ -14,20 +14,22 @@ enum State {
     case result(result: String)
 }
 
+enum Mode {
+    case defaultRule
+    case customRule(text: String)
+}
+
 class Reverser {
     func defaultReverse(textToReverse text: String) -> String {
         var words = text.components(separatedBy: .whitespaces)
-        
         for (index, word) in words.enumerated() {
             //Only letters
             if word.allSatisfy(\.isLetter) {
                 words[index] = String(word.reversed())
                 continue
             }
-            
             //No letters
             if !word.contains(where: \.isLetter) { continue }
-            
             //Mix
             var reversed = word.reversed().filter(\.isLetter)
             for (index, char) in word.enumerated() {
@@ -37,7 +39,6 @@ class Reverser {
             }
             words[index] = String(reversed)
         }
-        
         return words.joined(separator: " ")
     }
     func reverseWithIgnoreRules(textToReverse fullText: String, textToIgnore ignore: String) -> String {
@@ -85,13 +86,18 @@ class Reverser {
 }
 
 class ViewController: UIViewController {
-    
+
     private lazy var reverser = Reverser()
     
     //MARK: State
+    private var mode: Mode = .defaultRule {
+        didSet {
+            applyState(state, mode)
+        }
+    }
     private var state: State = .initial {
         didSet {
-            applyState(state)
+            applyState(state, mode)
         }
     }
     
@@ -146,9 +152,8 @@ class ViewController: UIViewController {
     private let segmentedControll: UISegmentedControl = {
         let menuArr = [Constants.Segment.defaultName,Constants.Segment.customName]
         let segments = UISegmentedControl(items: menuArr)
-        segments.backgroundColor = .lightGray
-        segments.selectedSegmentTintColor = .white
-        segments.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .normal)
+        segments.backgroundColor = Constants.Segment.inselectedBackgroundColor
+        segments.selectedSegmentTintColor = Constants.Segment.selectedBackgroundColor
         segments.selectedSegmentIndex = Constants.Segment.defaultIndex
         return segments
     }()
@@ -158,6 +163,7 @@ class ViewController: UIViewController {
         label.textColor = Constants.DefaultSegment.textColor
         label.font = Constants.DefaultSegment.font
         label.textAlignment = .center
+        label.numberOfLines = Constants.DefaultSegment.numberOfLines
         return label
     }()
     private let customSegmentTextField: UITextField = {
@@ -167,6 +173,7 @@ class ViewController: UIViewController {
         textField.attributedPlaceholder = Constants.CustomSegment.placeholder
         textField.returnKeyType = .done
         textField.isHidden = true
+        textField.clearsOnBeginEditing = true
         return textField
     }()
     private let scrollView: UIScrollView = {
@@ -292,6 +299,7 @@ class ViewController: UIViewController {
     
     private func defaultConfiguration() {
         inputTextField.delegate = self
+        customSegmentTextField.delegate = self
         view.backgroundColor = .white
         reverseButton.addTarget(self, action: #selector(onActionButton), for: .touchUpInside)
         segmentedControll.addTarget(self, action: #selector(selectedSegment), for: .valueChanged)
@@ -302,11 +310,10 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(sender:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    private func applyState(_ state: State) {
+    private func applyState(_ state: State,_ mode: Mode) {
         func applyInitialState() {
             resultTextView.text = ""
             inputTextField.text = ""
-            customSegmentTextField.text = ""
             reverseButton.setTitle(Constants.ReverseButton.titleLabelReverse, for: .normal)
             reverseButton.layer.backgroundColor = Constants.ReverseButton.inactiveBackgroundColor
             reverseButton.isEnabled = false
@@ -328,38 +335,58 @@ class ViewController: UIViewController {
             dividerView.layer.backgroundColor = Constants.Divider.inactiveColor
             resultTextView.text = result
         }
+        func applyDefaultMode() {
+            defaultSegmentLabel.isHidden = false
+            customSegmentTextField.isHidden = true
+        }
+        func applyCustomMode() {
+            defaultSegmentLabel.isHidden = true
+            customSegmentTextField.isHidden = false
+        }
         
-        switch state {
-        case .initial:
+        switch (state,mode) {
+        case (.initial, .defaultRule):
             applyInitialState()
-        case .typing(let text):
+            applyDefaultMode()
+        case (.initial,.customRule):
+            applyInitialState()
+            applyCustomMode()
+        case (.typing(let text), .defaultRule):
             applyTypingState(hasEnteredText: !text.isEmpty)
-        case .result(let result):
+            applyDefaultMode()
+        case (.typing(let text), .customRule):
+            applyTypingState(hasEnteredText: !text.isEmpty)
+            applyCustomMode()
+        case (.result(let result), .defaultRule):
             applyResultState(result: result)
+            applyDefaultMode()
+        case (.result(result: let result), .customRule):
+            applyResultState(result: result)
+            applyCustomMode()
         }
     }
     
     @objc private func onActionButton(sender: UIButton) {
         func reverseText(text: String) {
-            let result: String
-            if let string = customSegmentTextField.text, string != "" {
-                result = reverser.reverseWithIgnoreRules(textToReverse: text, textToIgnore: string)
-            } else {
-                result = reverser.defaultReverse(textToReverse: text)
-            }
-            
+            let result = reverser.defaultReverse(textToReverse: text)
+            state = .result(result: result)
+        }
+        func reverseTextWithRule(text: String, ignore: String?) {
+            let result = reverser.reverseWithIgnoreRules(textToReverse: text, textToIgnore: ignore ?? "")
             state = .result(result: result)
         }
         func clearText() {
             state = .initial
         }
         
-        switch state {
-        case .initial:
+        switch (state,mode) {
+        case (.initial, .defaultRule), (.initial,.customRule):
             break
-        case .typing(let text):
+        case (.typing(let text), .defaultRule):
             reverseText(text: text)
-        case .result:
+        case (.typing(let text), .customRule(let ignore)):
+            reverseTextWithRule(text: text, ignore: ignore)
+        case (.result, .defaultRule), (.result, .customRule):
             clearText()
         }
     }
@@ -367,12 +394,11 @@ class ViewController: UIViewController {
     @objc private func selectedSegment(sender: UISegmentedControl) {
         let segmentIndex = sender.selectedSegmentIndex
         if segmentIndex == 0 {
-            defaultSegmentLabel.isHidden = false
-            customSegmentTextField.isHidden = true
+            mode = .defaultRule
         } else {
-            customSegmentTextField.isHidden = false
-            defaultSegmentLabel.isHidden = true
+            mode = .customRule(text: customSegmentTextField.text ?? "")
         }
+        state = .typing(text: inputTextField.text ?? "")
     }
     
     @objc private func keyboardWillShow(sender: NSNotification) {
@@ -401,17 +427,14 @@ extension ViewController: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == inputTextField {
-            if let text = textField.text,
-               let textRange = Range(range, in: text) {
-                let updatedText = text.replacingCharacters(in: textRange, with: string)
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange, with: string)
+            if textField == inputTextField {
                 state = .typing(text: updatedText)
-            }
-        } else if textField == customSegmentTextField {
-            if let text = textField.text,
-               let textRange = Range(range, in: text) {
-                let updatedText = text.replacingCharacters(in: textRange, with: string)
-                customSegmentTextField.text = updatedText
+            } else if textField == customSegmentTextField {
+                mode = .customRule(text: updatedText)
+                state = .typing(text: inputTextField.text ?? "")
             }
         }
         return true
@@ -460,11 +483,14 @@ extension ViewController {
             static let defaultName = "Default"
             static let customName = "Custom"
             static let defaultIndex = 0
+            static let inselectedBackgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 0.6)
+            static let selectedBackgroundColor = UIColor(red: 0, green: 0.478, blue: 1, alpha: 1)
         }
         enum DefaultSegment {
             static let text = "All characters except alphabetic symbols"
-            static let textColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
             static let font = UIFont(name: "Roboto-Regular", size: 17) ?? UIFont.systemFont(ofSize: 17)
+            static let textColor = UIColor(red: 0.235, green: 0.235, blue: 0.263, alpha: 0.6)
+            static let numberOfLines = 0
         }
         enum CustomSegment {
             static let placeholder = NSAttributedString(
