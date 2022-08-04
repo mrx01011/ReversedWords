@@ -8,86 +8,9 @@
 import SnapKit
 import UIKit
 
-enum State {
-    case initial
-    case typing(text: String)
-    case result(result: String)
-}
-
-enum Mode {
-    case defaultRule
-    case customRule(text: String)
-}
-
-class Reverser {
-    func defaultReverse(textToReverse text: String) -> String {
-        var words = text.components(separatedBy: .whitespaces)
-        for (index, word) in words.enumerated() {
-            //Only letters
-            if word.allSatisfy(\.isLetter) {
-                words[index] = String(word.reversed())
-                continue
-            }
-            //No letters
-            if !word.contains(where: \.isLetter) { continue }
-            //Mix
-            var reversed = word.reversed().filter(\.isLetter)
-            for (index, char) in word.enumerated() {
-                if !char.isLetter {
-                    index < reversed.endIndex ? reversed.insert(char, at: index) : reversed.append(char)
-                }
-            }
-            words[index] = String(reversed)
-        }
-        return words.joined(separator: " ")
-    }
-    func reverseWithIgnoreRules(textToReverse fullText: String, textToIgnore ignore: String) -> String {
-        var set = Set<Character>()
-        let squeezed = ignore.filter{ set.insert($0).inserted }
-        let fullTextArray = fullText.components(separatedBy: " ")
-        var posOfChars : [[String:[Int]]] = [] // posOfChars[i] is a dict [String:[Int]], giving the positions of each excluded chars in component i
-        for (i, comp) in fullTextArray.enumerated() {
-            posOfChars.append( [:] )
-            for c in squeezed {
-                for (pos, charInComp) in comp.enumerated() {
-                    if charInComp == c {
-                        if posOfChars[i][String(c)] == nil {
-                            posOfChars[i][String(c)] = [pos]
-                        } else {
-                            posOfChars[i][String(c)]!.append(pos)
-                        }
-                    }
-                }
-            }
-        }
-        var newTextArray = fullTextArray
-        for (i, _) in fullTextArray.enumerated() {
-            for c in squeezed {
-                newTextArray[i] = newTextArray[i].replacingOccurrences(of: String(c), with: "")
-            }
-        }
-        newTextArray = newTextArray.map() { String($0.reversed()) }
-        for i in 0..<fullTextArray.count { // Get each component
-            var orderedArray = [(Int, String)] ()
-            for toRestore in posOfChars[i] {
-                for item in toRestore.value {
-                    orderedArray.append((item, toRestore.key))
-                }
-                orderedArray = orderedArray.sorted() { $0.0 < $1.0 }
-            }
-            for (index, str) in orderedArray {
-                let posIndex = newTextArray[i].index(newTextArray[i].startIndex, offsetBy: index)
-                let char = str[0]
-                newTextArray[i].insert(char, at: posIndex)
-            }
-        }
-        return newTextArray.joined(separator: " ")
-    }
-}
-
-class ViewController: UIViewController {
-
-    private lazy var reverser = Reverser()
+class MainViewController: UIViewController {
+    
+    private let reverser = Reverser()
     
     //MARK: State
     private var mode: Mode = .defaultRule {
@@ -344,25 +267,19 @@ class ViewController: UIViewController {
             customSegmentTextField.isHidden = false
         }
         
-        switch (state,mode) {
-        case (.initial, .defaultRule):
+        switch mode {
+        case .defaultRule:
+            applyDefaultMode()
+        case .customRule:
+            applyCustomMode()
+        }
+        switch state {
+        case .initial:
             applyInitialState()
-            applyDefaultMode()
-        case (.initial,.customRule):
-            applyInitialState()
-            applyCustomMode()
-        case (.typing(let text), .defaultRule):
+        case .typing(let text):
             applyTypingState(hasEnteredText: !text.isEmpty)
-            applyDefaultMode()
-        case (.typing(let text), .customRule):
-            applyTypingState(hasEnteredText: !text.isEmpty)
-            applyCustomMode()
-        case (.result(let result), .defaultRule):
+        case .result(let result):
             applyResultState(result: result)
-            applyDefaultMode()
-        case (.result(result: let result), .customRule):
-            applyResultState(result: result)
-            applyCustomMode()
         }
     }
     
@@ -379,24 +296,26 @@ class ViewController: UIViewController {
             state = .initial
         }
         
-        switch (state,mode) {
-        case (.initial, .defaultRule), (.initial,.customRule):
+        switch state {
+        case .initial:
             break
-        case (.typing(let text), .defaultRule):
-            reverseText(text: text)
-        case (.typing(let text), .customRule(let ignore)):
-            reverseTextWithRule(text: text, ignore: ignore)
-        case (.result, .defaultRule), (.result, .customRule):
+        case .typing(let text):
+            switch mode {
+            case .defaultRule:
+                reverseText(text: text)
+            case .customRule(let ignore):
+                reverseTextWithRule(text: text, ignore: ignore)
+            }
+        case .result:
             clearText()
         }
     }
     
     @objc private func selectedSegment(sender: UISegmentedControl) {
         let segmentIndex = sender.selectedSegmentIndex
-        if segmentIndex == 0 {
-            mode = .defaultRule
-        } else {
-            mode = .customRule(text: customSegmentTextField.text ?? "")
+        let text = customSegmentTextField.text ?? ""
+        if let mode = Mode(index: segmentIndex, text: text) {
+            self.mode = mode
         }
         state = .typing(text: inputTextField.text ?? "")
     }
@@ -416,12 +335,13 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         view.endEditing(true)
     }
 }
 // MARK: Text Field Delegate
-extension ViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+extension MainViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //Delete this
         self.view.endEditing(true)
         return false
     }
@@ -440,14 +360,31 @@ extension ViewController: UITextFieldDelegate {
         return true
     }
 }
-// MARK: String Protocol
-extension StringProtocol {
-    subscript(offset: Int) -> Character {
-        self[index(startIndex, offsetBy: offset)]
+
+// MARK: Models
+extension MainViewController {
+    enum State {
+        case initial
+        case typing(text: String)
+        case result(result: String)
+    }
+
+    enum Mode {
+        case defaultRule
+        case customRule(text: String)
+        init?(index: Int, text: String?) {
+            if index == 0 {
+                self = .defaultRule
+            } else if index == 1, let value = text {
+                self = .customRule(text: value)
+            } else {
+                return nil
+            }
+        }
     }
 }
 // MARK: Constants
-extension ViewController {
+extension MainViewController {
     private enum Constants {
         enum Header {
             static let color = UIColor(red: 0.976, green: 0.976, blue: 0.976, alpha: 0.94).cgColor

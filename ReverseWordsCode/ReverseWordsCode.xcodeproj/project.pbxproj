@@ -10,13 +10,19 @@
 		B9F84FBF1BE57C81E650C08A /* Pods_ReverseWordsCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230CD3CE05AF568BF3A100DB /* Pods_ReverseWordsCode.framework */; };
 		FB1B26622879FBE100C13FC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B26612879FBE100C13FC6 /* AppDelegate.swift */; };
 		FB1B26642879FBE100C13FC6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B26632879FBE100C13FC6 /* SceneDelegate.swift */; };
-		FB1B26662879FBE100C13FC6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B26652879FBE100C13FC6 /* ViewController.swift */; };
+		FB1B26662879FBE100C13FC6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1B26652879FBE100C13FC6 /* MainViewController.swift */; };
 		FB1B26692879FBE100C13FC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB1B26672879FBE100C13FC6 /* Main.storyboard */; };
 		FB1B266B2879FBE300C13FC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB1B266A2879FBE300C13FC6 /* Assets.xcassets */; };
 		FB1B266E2879FBE300C13FC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB1B266C2879FBE300C13FC6 /* LaunchScreen.storyboard */; };
 		FB1B2678287A090F00C13FC6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB1B2676287A090E00C13FC6 /* Roboto-Regular.ttf */; };
 		FB1B2679287A090F00C13FC6 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB1B2677287A090F00C13FC6 /* Roboto-Bold.ttf */; };
 		FB56F9C02889C34500042F25 /* ReverseWordsCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB56F9BF2889C34500042F25 /* ReverseWordsCodeTests.swift */; };
+		FB94D15D289C54AC00C36E4D /* StringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D15C289C54AC00C36E4D /* StringProtocol.swift */; };
+		FB94D15E289C54AC00C36E4D /* StringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D15C289C54AC00C36E4D /* StringProtocol.swift */; };
+		FB94D15F289C54AC00C36E4D /* StringProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D15C289C54AC00C36E4D /* StringProtocol.swift */; };
+		FB94D161289C54EB00C36E4D /* Reverser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D160289C54EB00C36E4D /* Reverser.swift */; };
+		FB94D162289C54EB00C36E4D /* Reverser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D160289C54EB00C36E4D /* Reverser.swift */; };
+		FB94D163289C54EB00C36E4D /* Reverser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB94D160289C54EB00C36E4D /* Reverser.swift */; };
 		FBFAC3FF288AD388000EC6BA /* ReverseWordsCodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFAC3FE288AD388000EC6BA /* ReverseWordsCodeUITests.swift */; };
 		FBFAC401288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFAC400288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +51,7 @@
 		FB1B265E2879FBE100C13FC6 /* ReverseWordsCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReverseWordsCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB1B26612879FBE100C13FC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FB1B26632879FBE100C13FC6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FB1B26652879FBE100C13FC6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FB1B26652879FBE100C13FC6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FB1B26682879FBE100C13FC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FB1B266A2879FBE300C13FC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB1B266D2879FBE300C13FC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +60,8 @@
 		FB1B2677287A090F00C13FC6 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		FB56F9BD2889C34500042F25 /* ReverseWordsCodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReverseWordsCodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB56F9BF2889C34500042F25 /* ReverseWordsCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeTests.swift; sourceTree = "<group>"; };
+		FB94D15C289C54AC00C36E4D /* StringProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringProtocol.swift; sourceTree = "<group>"; };
+		FB94D160289C54EB00C36E4D /* Reverser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reverser.swift; sourceTree = "<group>"; };
 		FBFAC3FC288AD388000EC6BA /* ReverseWordsCodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReverseWordsCodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBFAC3FE288AD388000EC6BA /* ReverseWordsCodeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeUITests.swift; sourceTree = "<group>"; };
 		FBFAC400288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseWordsCodeUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -121,11 +129,13 @@
 				FB1B2675287A08B000C13FC6 /* Fonts */,
 				FB1B26612879FBE100C13FC6 /* AppDelegate.swift */,
 				FB1B26632879FBE100C13FC6 /* SceneDelegate.swift */,
-				FB1B26652879FBE100C13FC6 /* ViewController.swift */,
+				FB1B26652879FBE100C13FC6 /* MainViewController.swift */,
 				FB1B26672879FBE100C13FC6 /* Main.storyboard */,
 				FB1B266A2879FBE300C13FC6 /* Assets.xcassets */,
 				FB1B266C2879FBE300C13FC6 /* LaunchScreen.storyboard */,
 				FB1B266F2879FBE300C13FC6 /* Info.plist */,
+				FB94D15C289C54AC00C36E4D /* StringProtocol.swift */,
+				FB94D160289C54EB00C36E4D /* Reverser.swift */,
 			);
 			path = ReverseWordsCode;
 			sourceTree = "<group>";
@@ -342,9 +352,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB1B26662879FBE100C13FC6 /* ViewController.swift in Sources */,
+				FB94D15D289C54AC00C36E4D /* StringProtocol.swift in Sources */,
+				FB1B26662879FBE100C13FC6 /* MainViewController.swift in Sources */,
 				FB1B26622879FBE100C13FC6 /* AppDelegate.swift in Sources */,
 				FB1B26642879FBE100C13FC6 /* SceneDelegate.swift in Sources */,
+				FB94D161289C54EB00C36E4D /* Reverser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,7 +364,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB94D15E289C54AC00C36E4D /* StringProtocol.swift in Sources */,
 				FB56F9C02889C34500042F25 /* ReverseWordsCodeTests.swift in Sources */,
+				FB94D162289C54EB00C36E4D /* Reverser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +376,8 @@
 			files = (
 				FBFAC401288AD388000EC6BA /* ReverseWordsCodeUITestsLaunchTests.swift in Sources */,
 				FBFAC3FF288AD388000EC6BA /* ReverseWordsCodeUITests.swift in Sources */,
+				FB94D15F289C54AC00C36E4D /* StringProtocol.swift in Sources */,
+				FB94D163289C54EB00C36E4D /* Reverser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
