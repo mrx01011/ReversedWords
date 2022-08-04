@@ -130,12 +130,12 @@
 				FB1B26612879FBE100C13FC6 /* AppDelegate.swift */,
 				FB1B26632879FBE100C13FC6 /* SceneDelegate.swift */,
 				FB1B26652879FBE100C13FC6 /* MainViewController.swift */,
+				FB94D15C289C54AC00C36E4D /* StringProtocol.swift */,
+				FB94D160289C54EB00C36E4D /* Reverser.swift */,
 				FB1B26672879FBE100C13FC6 /* Main.storyboard */,
 				FB1B266A2879FBE300C13FC6 /* Assets.xcassets */,
 				FB1B266C2879FBE300C13FC6 /* LaunchScreen.storyboard */,
 				FB1B266F2879FBE300C13FC6 /* Info.plist */,
-				FB94D15C289C54AC00C36E4D /* StringProtocol.swift */,
-				FB94D160289C54EB00C36E4D /* Reverser.swift */,
 			);
 			path = ReverseWordsCode;
 			sourceTree = "<group>";

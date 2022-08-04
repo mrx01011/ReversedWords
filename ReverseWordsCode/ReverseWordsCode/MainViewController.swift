@@ -368,7 +368,7 @@ extension MainViewController {
         case typing(text: String)
         case result(result: String)
     }
-
+    
     enum Mode {
         case defaultRule
         case customRule(text: String)
